@@ -2,20 +2,57 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="assets/css/reset.css">
 	<link rel="stylesheet" href="assets/css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
 	<title>GIPHY project</title>
 </head>
-<body>
+<body class="grad">
 
-<div class="container">
-	some content
+<div id="grad"> 
+
+
+<div id="container" >
+
+<header>
+	<img src="assets/images/Giphy_Logo.png" alt="GIPHY">
+	<div id="headerContainer">
+	<h1>Animal Search</h1>
+	<h2> Find the top GIFS for your favorite animal. </h2>
+	</div>
+
+</header>
+
+<section class="row">
+<aside class="col">
+
+<form id="animal-form">
+      <label for="animal-input">Add your<br>favorite animal</label><br>
+
+      <input type="text" id="animal-input"><br>
+
+      <!-- Button triggers new movie to be added -->
+      <input id="add-animal" class="submit" type="submit" value="Get Some GIFs">
+    </form>
+
+    <div id="buttons-view">
+    	<button data-animal="dogs">DOG</button>
+
+    </div>
+
+
+</aside>
+
+<section id="gifsAppearHere" class="col">
+		
+
+</section>
+	
+	</section>
 </div>
 	
-
-
-
+	</div>
 
 <script
   src="https://code.jquery.com/jquery-3.2.1.min.js"
