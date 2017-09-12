@@ -46,11 +46,11 @@ renderButtons();
 
 
 function getGifs() {
-	console.log("button Clicked");
+	//console.log("button Clicked");
 
 	 $("#gifsAppearHere").empty();	
 
-	 console.log("div is empty");
+	 //console.log("div is empty");
 
 	 
       var animal = $(this).attr("data-animal");
@@ -66,7 +66,7 @@ function getGifs() {
 
           var results = response.data;
           
-          console.log(response.data);
+          //console.log(response.data);
 
           for (var i = 0; i < results.length; i++) {
             var gifDiv = $("<div class='item'>");
@@ -100,21 +100,20 @@ function getGifs() {
 //======== still working on this ===========
 
 function activateGif(){
-	console.log("item has been clicked");
+	//console.log("item has been clicked");
 
 var state = $(this).attr("data-state");
 
-console.log(state);
+//console.log(state);
 
 if (state === "still"){
 
- 	$(this).attr("src", $(this).attr("data-animate"));
-
+   	$(this).attr("src", $(this).attr("data-animate"));
     $(this).attr("data-state", "animate");
 
 } else {
-          $(this).attr("src", $(this).attr("data-still"));
-          $(this).attr("data-state", "still");
+    $(this).attr("src", $(this).attr("data-still"));
+    $(this).attr("data-state", "still");
 
         }
 
@@ -122,7 +121,7 @@ if (state === "still"){
 
 //======== still working on this ===========
 
-$(document).on("click", ".animal", getGifs); 
+$(document).on("click", ".animal", getGifs);
 
 $(document).on("click", ".gif", activateGif);
 
