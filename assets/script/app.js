@@ -1,130 +1,124 @@
+$(document).ready(function () {
 
-$(document).ready(function(){
-  
-var animals = ["cats", "dogs", "turtles", "lions", "tigers", "dolphins","horses", "snakes", "goldfish", "elephants", "frogs", "parrots"];
+  var animals = [
+    "cats",
+    "dogs",
+    "turtles",
+    "lions",
+    "tigers",
+    "dolphins",
+    "horses",
+    "snakes",
+    "goldfish",
+    "elephants",
+    "frogs",
+    "parrots"
+  ];
 
+  //=========== FUNCTION CREATE BUTTONS ============//
 
+  function renderButtons() {
 
-//=========== FUNCTION CREATE BUTTONS ============//
+    $("#buttons-view").empty();
 
-function renderButtons() {
+    for (var i = 0; i < animals.length; i++) {
 
-$("#buttons-view").empty();
+      var a = $('<button>');
 
-        for (var i = 0; i < animals.length; i++) {
+      a.addClass("animal");
 
-          var a = $("<button>");
-    
-          a.addClass("animal");
+      a.attr("data-animal", animals[i]);
 
-          a.attr("data-animal", animals[i]);
- 
-          a.text(animals[i]);
-   
-          $("#buttons-view").prepend(a);
-        }
-}
+      a.text(animals[i]);
 
+      $("#buttons-view").prepend(a);
+    }
+  }
 
-
-$("#add-animal").on("click", function(event) {
+  $("#add-animal").on("click", function(event) {
     event.preventDefault();
 
-var animal = $("#animal-input").val().trim();
+    var animal = $("#animal-input").val().trim();
 
-if (animal != ""){
+    if (animal != "") {
 
-animals.push(animal);
+      animals.push(animal);
 
-$("#animal-input").val("");
+      $("#animal-input").val("");
 
-renderButtons();
-} 
+      renderButtons();
+    }
 
+  });
 
-});
+  function getGifs() {
 
+    $("#gifsAppearHere").empty();
 
-function getGifs() {
-	//console.log("button Clicked");
+    var animal = $(this).attr("data-animal");
 
-	 $("#gifsAppearHere").empty();	
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + animal + "&api_key=dc6zaTOxFJmzC&limit=10";
 
-	 //console.log("div is empty");
+    $.ajax({url: queryURL, method: "GET"}).done(function(response) {
 
-	 
-      var animal = $(this).attr("data-animal");
+      var results = response.data
 
+      for (var i = 0; i < results.length; i++) {
+        var gifDiv = $("<div class='item'>");
 
-      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-        animal + "&api_key=dc6zaTOxFJmzC&limit=10";
+        var rating = results[i].rating;
 
-      $.ajax({
-          url: queryURL,
-          method: "GET"
-        }).done(function(response) {
+        var p = $("<p class='label'>").text("Rating: " + rating);
 
-          var results = response.data;
-          
-          //console.log(response.data);
+        var animalImage = $("<img>");
 
-          for (var i = 0; i < results.length; i++) {
-            var gifDiv = $("<div class='item'>");
+        animalImage.addClass("gif");
 
-            var rating = results[i].rating;
+        animalImage.attr("src", results[i].images.fixed_height_still.url);
 
-            var p = $("<p class='label'>").text("Rating: " + rating);
+        animalImage.attr("data-still", results[i].images.fixed_height_still.url);
 
-            var animalImage = $("<img>");
+        animalImage.attr("data-animate", results[i].images.fixed_height.url);
 
-            animalImage.addClass("gif");
+        animalImage.attr("data-state", "still");
 
-            animalImage.attr("src", results[i].images.fixed_height_still.url);
+        gifDiv.prepend(p);
+        gifDiv.prepend(animalImage);
 
-            animalImage.attr("data-still", results[i].images.fixed_height_still.url);
+        $("#gifsAppearHere").append(gifDiv);
+      }
+    });
 
-            animalImage.attr("data-animate", results[i].images.fixed_height.url);
+  }
 
-            animalImage.attr("data-state", "still");
+  //======== still working on this ===========
 
+  function activateGif() {
+    //console.log("item has been clicked");
 
-            gifDiv.prepend(p);
-            gifDiv.prepend(animalImage);
+    var state = $(this).attr("data-state");
 
-            $("#gifsAppearHere").append(gifDiv);
-          }
-      });
-   
-}
+    //console.log(state);
 
-//======== still working on this ===========
+    if (state === "still") {
 
-function activateGif(){
-	//console.log("item has been clicked");
+      $(this).attr("src", $(this).attr("data-animate"));
+      $(this).attr("data-state", "animate");
 
-var state = $(this).attr("data-state");
+    } else {
+      $(this).attr("src", $(this).attr("data-still"));
+      $(this).attr("data-state", "still");
 
-//console.log(state);
+    }
 
-if (state === "still"){
+  }
 
-   	$(this).attr("src", $(this).attr("data-animate"));
-    $(this).attr("data-state", "animate");
+  //======== still working on this ===========
 
-} else {
-    $(this).attr("src", $(this).attr("data-still"));
-    $(this).attr("data-state", "still");
+  $(document).on("click", ".animal", getGifs);
 
-        }
+  $(document).on("click", ".gif", activateGif);
 
-}
+  renderButtons();
 
-//======== still working on this ===========
-
-$(document).on("click", ".animal", getGifs);
-
-$(document).on("click", ".gif", activateGif);
-
-renderButtons();
-  
 }); //end of Doc Ready
